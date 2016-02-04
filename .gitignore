@@ -15,9 +15,6 @@ Thumbs.db
 # Mac DS_Store Files
 .DS_Store
 
-# Composer files
-composer.lock
-
 # phpunit itself is not needed
 phpunit.phar
 # local phpunit config
