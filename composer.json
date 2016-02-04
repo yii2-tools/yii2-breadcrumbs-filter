@@ -1,6 +1,6 @@
 {
     "name": "itnelo/yii2-breadcrumbs-filter",
-    "description": "Yii2 ActionFilter which automatically append module as breadcrumb item",
+    "description": "Filter for the Yii2 Framework which automatically append module as breadcrumb item",
     "keywords": [
         "itnelo",
         "yii2",
