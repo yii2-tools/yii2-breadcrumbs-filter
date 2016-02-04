@@ -41,10 +41,10 @@ public function behaviors()
 }
 ```
 
-### Best practices
+## Best practices
 
-You can unify site breadcrumbs navigation building in one class by extending [yii\base\Module](http://www.yiiframework.com/doc-2.0/yii-base-module.html).
-It will guarantee what all modules in requested route receive their own breadcrumb record. Example:
+You can unify building of site breadcrumbs navigation by extending [yii\base\Module](http://www.yiiframework.com/doc-2.0/yii-base-module.html).
+It will guarantee what all modules in requested route gets their place in breadcrumbs widget. Example:
 
 ```PHP
 use yii\base\Module as BaseModule;
@@ -85,6 +85,16 @@ class Module extends BaseModule
         return array_merge(parent::behaviors(), $behaviors);
     }
 }
+```
+
+In [view](https://github.com/yiisoft/yii2/blob/master/docs/guide/structure-views.md) file:
+
+```PHP
+<div class="container">
+    <?= \yii\widgets\Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+</div>
 ```
 
 ## License
