@@ -27,7 +27,7 @@ to the `require` section of your `composer.json` file.
 
 ## Usage
 
-[Attach behavior](http://www.yiiframework.com/doc-2.0/guide-concept-behaviors.html#attaching-behaviors) to module
+[Attach behavior](http://www.yiiframework.com/doc-2.0/guide-concept-behaviors.html#attaching-behaviors) to module:
 
 ```PHP
 public function behaviors()
