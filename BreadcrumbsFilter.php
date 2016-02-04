@@ -101,10 +101,18 @@ class BreadcrumbsFilter extends ActionFilter
     public $label = '';
 
     /**
-     * If default route contains id of current controller
+     * If default route matches current route
      * breadcrumb will not be active (Url parameter in config will be omitted)
      * Default value of this param equals $defaultRoute in yii\base\Module
-     * Override this property (simply set '') if you don't need this behavior
+     *
+     * How it works:
+     *      /news/create => Home / News / Create
+     *      /news/index  => Home / News
+     *                        instead of:
+     *                      Home / News / Index
+     *
+     * Override this property (simply set '') if you don't need such behavior
+     * and want to always see full detailed breadcrumbs navigation
      * @var string
      */
     public $defaultRoute = 'default';
@@ -112,7 +120,7 @@ class BreadcrumbsFilter extends ActionFilter
     /**
      * Array of strings-routes what should be ignored in breadcrumb navigation
      * Example: ['site/default/index', 'index', 'ind']
-     * Comparation of current route with $exceptRoutes performs by preg_match() function
+     * Comparation of current route with $exceptRoutes performs by strpos() function
      * ['*'] stands for "don't show me in breadcrumbs completely"
      * @var array
      */
@@ -142,7 +150,8 @@ class BreadcrumbsFilter extends ActionFilter
      * @param \yii\base\Action $action
      * @return bool
      */
-    public function beforeAction($action) {
+    public function beforeAction($action)
+    {
         $this->buildBreadcrumbs();
         return parent::beforeAction($action);
     }
@@ -150,7 +159,8 @@ class BreadcrumbsFilter extends ActionFilter
     /**
      * Appends owner's breadcrumb for current controller's view
      */
-    protected function buildBreadcrumbs() {
+    protected function buildBreadcrumbs()
+    {
         if (Instance::ensure(Yii::$app->controller, WebController::className())) {
             if (!empty($this->exceptRoutes) && $this->reject()) {
                 return;
@@ -171,7 +181,8 @@ class BreadcrumbsFilter extends ActionFilter
      * @return string
      * @throws \yii\base\UnknownPropertyException
      */
-    protected function buildBreadcrumbLabel() {
+    protected function buildBreadcrumbLabel()
+    {
         if (!empty($this->label)) {
             return $this->label;
         } else {
@@ -188,30 +199,47 @@ class BreadcrumbsFilter extends ActionFilter
      * @throws \yii\base\UnknownMethodException
      * @throws \yii\base\UnknownPropertyException
      */
-    protected function buildBreadcrumbUrl() {
-        if ($this->owner->id === Yii::$app->controller->module->id
-            && strpos($this->defaultRoute, Yii::$app->controller->id) !== false) {
+    protected function buildBreadcrumbUrl()
+    {
+        if ($this->isActiveBreadcrumb()) {
             return null;
+        } else {
+            $route = $this->buildBreadcrumbRoute();
         }
+        return $route ? Url::to(['/' . $route]) : null;
+    }
+
+    protected function isActiveBreadcrumb()
+    {
+        if ($this->owner->id === Yii::$app->controller->module->id) {
+            $requestedRelativeRoute = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
+            return strpos($this->defaultRoute, $requestedRelativeRoute) !== false;
+        } else {
+            return false;
+        }
+    }
+
+    protected function buildBreadcrumbRoute()
+    {
         if (is_string($this->routeCreator)) {
             if (!$this->owner->hasMethod('getUniqueId')) {
                 throw new UnknownMethodException('BreadcrumbsFilter\'s owner should provide method \'getUniqueId\'');
             }
-            $route = $this->owner->{$this->routeCreator}();
+            return $this->owner->{$this->routeCreator}();
         } elseif (is_callable($this->routeCreator)) {
-            $route = call_user_func($this->routeCreator, $this);
+            return call_user_func($this->routeCreator, $this);
         } else {
             throw new UnknownPropertyException('BreadcrumbsFilter\'s should be configured with valid routeCreator ' .
                 '(owner\'s method name or callable)');
         }
-        return $route ? Url::to(['/' . $route]) : null;
     }
 
     /**
      * Rejects breadcrumbs creation for current route
      * Performs by sequentually checks of $exceptRoutes array
      */
-    protected function reject() {
+    protected function reject()
+    {
         foreach ($this->exceptRoutes as $route) {
             if ($route === '*' || strpos(Yii::$app->requestedRoute, $route) !== false) {
                 return true;
