@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace app\components\filters;
+namespace itnelo\filters;
 
 use Yii;
 use yii\helpers\Url;
