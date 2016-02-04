@@ -103,7 +103,7 @@ class BreadcrumbsFilter extends ActionFilter
     /**
      * If default route contains id of current controller
      * breadcrumb will not be active (Url parameter in config will be omitted)
-     * Default value of this param equals id in yii\base\Module
+     * Default value of this param equals $defaultRoute in yii\base\Module
      * Override this property (simply set '') if you don't need this behavior
      * @var string
      */
