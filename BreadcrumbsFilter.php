@@ -54,9 +54,6 @@ use yii\web\Controller as WebController;
  *      yii\base\Module (recommended)
  *      yii\base\Component, with implemented 'getUniqueId()'
  *      Object, with routeCreator as callable function
- *
- * Class BreadcrumbsFilter
- * @package app\components\filters
  */
 class BreadcrumbsFilter extends ActionFilter
 {
