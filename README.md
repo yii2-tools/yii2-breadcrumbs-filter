@@ -48,9 +48,16 @@ It will guarantee what all modules in requested route gets their place in breadc
 
 ```PHP
 use yii\base\Module as BaseModule;
+use itnelo\filters\BreadcrumbsFilter;
 
 class Module extends BaseModule
 {
+    /**
+     * Module name
+     * @var string
+     */
+    public $name = Yii::t('category', 'My Module');
+
     /**
      * Enable/Disable breadcrumbs natigation via app\components\filters\BreadcrumbsFilter
      * For module itself, not affects on child modules or components
@@ -76,7 +83,7 @@ class Module extends BaseModule
         if ($this->breadcrumbs) {
             $behaviors['breadcrumbs'] = [
                 'class' => BreadcrumbsFilter::className(),
-                'label' => $this->params['name'],
+                'label' => $this->name,
                 'defaultRoute' => $this->defaultRoute,
                 'exceptRoutes' => $this->breadcrumbsExceptRoutes,
             ];
@@ -89,7 +96,7 @@ class Module extends BaseModule
 
 In [view](https://github.com/yiisoft/yii2/blob/master/docs/guide/structure-views.md) file:
 
-```HTML
+```PHP
 <div class="container">
     <?= \yii\widgets\Breadcrumbs::widget([
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
