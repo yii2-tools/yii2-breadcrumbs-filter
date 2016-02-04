@@ -1,0 +1,20 @@
+{
+    "name": "itnelo/yii2-breadcrumbs-filter",
+    "description": "Yii2 ActionFilter which automatically append module as breadcrumb item if his id exists in requested route",
+    "keywords": ["yii2", "extension", "behaviors", "filters"],
+    "homepage": "https://github.com/itnelo/yii2-breadcrumbs-filter",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Pavel Petrov",
+            "email": "itnelo@gmail.com",
+            "homepage": "https://github.com/itnelo"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "itnelo\\filters\\": ""
+        }
+    }
+}
