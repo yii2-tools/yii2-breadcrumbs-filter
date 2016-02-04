@@ -89,7 +89,7 @@ class Module extends BaseModule
 
 In [view](https://github.com/yiisoft/yii2/blob/master/docs/guide/structure-views.md) file:
 
-```PHP
+```HTML
 <div class="container">
     <?= \yii\widgets\Breadcrumbs::widget([
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
