@@ -103,19 +103,19 @@ class BreadcrumbsFilter extends ActionFilter
     /**
      * If default route matches current route
      * breadcrumb will not be active (Url parameter in config will be omitted)
-     * Default value of this param equals $defaultRoute in yii\base\Module
      *
      * How it works:
-     *      /news/create => Home / News / Create
-     *      /news/index  => Home / News
-     *                        instead of:
-     *                      Home / News / Index
+     *      /news/default/create => Home / News / Create
+     *      /news/default/index  => Home / News
+     *                                instead of:
+     *                              Home / News / Index
      *
      * Override this property (simply set '') if you don't need such behavior
      * and want to always see full detailed breadcrumbs navigation
+     * even if it's default module page
      * @var string
      */
-    public $defaultRoute = 'default';
+    public $defaultRoute = 'default/index';
 
     /**
      * Array of strings-routes what should be ignored in breadcrumb navigation
