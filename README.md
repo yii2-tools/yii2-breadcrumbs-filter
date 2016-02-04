@@ -2,7 +2,6 @@
 
 [![Latest Version](https://img.shields.io/github/tag/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square&label=release)](https://github.com/itnelo/yii2-breadcrumbs-filter/tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/itnelo/yii2-breadcrumbs-filter/master.svg?style=flat-square)](https://travis-ci.org/itnelo/yii2-breadcrumbs-filter)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://scrutinizer-ci.com/g/itnelo/yii2-breadcrumbs-filter/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://scrutinizer-ci.com/g/itnelo/yii2-breadcrumbs-filter)
 [![Total Downloads](https://img.shields.io/packagist/dt/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://packagist.org/packages/itnelo/yii2-breadcrumbs-filter)
@@ -42,9 +41,51 @@ public function behaviors()
 }
 ```
 
-## Contributing
+### Best practices
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+You can unify site breadcrumbs navigation building in one class by extending [yii\base\Module](http://www.yiiframework.com/doc-2.0/yii-base-module.html).
+It will guarantee what all modules in requested route receive their own breadcrumb record. Example:
+
+```PHP
+use yii\base\Module as BaseModule;
+
+class Module extends BaseModule
+{
+    /**
+     * Enable/Disable breadcrumbs natigation via app\components\filters\BreadcrumbsFilter
+     * For module itself, not affects on child modules or components
+     * @var bool
+     */
+    public $breadcrumbs = true;
+
+    /**
+     * Array of [routes|controllers|actions] names which shouldn't have breadcrumbs
+     * ['*'] means what breadcrumbs navigation disabled for all controllers and actions (direct childs)
+     * For module itself, not affects on child modules
+     * @var bool
+     */
+    public $breadcrumbsExceptRoutes = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = [];
+
+        if ($this->breadcrumbs) {
+            $behaviors['breadcrumbs'] = [
+                'class' => BreadcrumbsFilter::className(),
+                'label' => $this->params['name'],
+                'defaultRoute' => $this->defaultRoute,
+                'exceptRoutes' => $this->breadcrumbsExceptRoutes,
+            ];
+        }
+
+        return array_merge(parent::behaviors(), $behaviors);
+    }
+}
+```
 
 ## License
 
