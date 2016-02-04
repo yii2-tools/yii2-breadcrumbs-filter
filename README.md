@@ -66,7 +66,7 @@ class Module extends BaseModule
      * Module name
      * @var string
      */
-    public $name = Yii::t('category', 'My Module');
+    public $name = 'My Module';
 
     /**
      * Enable/Disable breadcrumbs natigation via app\components\filters\BreadcrumbsFilter
