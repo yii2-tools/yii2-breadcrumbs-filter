@@ -69,7 +69,7 @@ class Module extends BaseModule
 
     /**
      * Enable/Disable breadcrumbs natigation via app\components\filters\BreadcrumbsFilter
-     * For module itself, not affects on child modules or components
+     * For module and submodules, without affects on parent module
      * @var bool
      */
     public $breadcrumbs = true;
@@ -77,7 +77,7 @@ class Module extends BaseModule
     /**
      * Array of [routes|controllers|actions] names which shouldn't have breadcrumbs
      * ['*'] means what breadcrumbs navigation disabled for all controllers and actions (direct childs)
-     * For module itself, not affects on child modules
+     * For module and submodules, without affects on parent module
      * @var bool
      */
     public $breadcrumbsExceptRoutes = [];
