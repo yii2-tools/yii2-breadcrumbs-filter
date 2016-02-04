@@ -5,8 +5,8 @@
         "itnelo",
         "yii2",
         "extension",
-        "behaviors",
-        "filters"
+        "behavior",
+        "filter"
     ],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
