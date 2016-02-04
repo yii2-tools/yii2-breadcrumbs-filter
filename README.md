@@ -41,6 +41,16 @@ public function behaviors()
 }
 ```
 
+In [view](https://github.com/yiisoft/yii2/blob/master/docs/guide/structure-views.md) file (perhaps, layout):
+
+```PHP
+<div class="container">
+    <?= \yii\widgets\Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+</div>
+```
+
 ## Best practices
 
 You can unify building of site breadcrumbs navigation by extending [yii\base\Module](http://www.yiiframework.com/doc-2.0/yii-base-module.html).
@@ -92,16 +102,6 @@ class Module extends BaseModule
         return array_merge(parent::behaviors(), $behaviors);
     }
 }
-```
-
-In [view](https://github.com/yiisoft/yii2/blob/master/docs/guide/structure-views.md) file:
-
-```PHP
-<div class="container">
-    <?= \yii\widgets\Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
-</div>
 ```
 
 ## License
