@@ -110,7 +110,7 @@ class BreadcrumbsFilter extends ActionFilter
      *                                instead of:
      *                              Home / News / Index
      *
-     * Override this property (simply set '') if you don't need such behavior
+     * Override this property to FALSE if you don't need such behavior
      * and want to always see full detailed breadcrumbs navigation
      * even if it's default module page
      * @var string
@@ -165,14 +165,14 @@ class BreadcrumbsFilter extends ActionFilter
             if (!empty($this->exceptRoutes) && $this->reject()) {
                 return;
             }
-            $breadcrumbsParamConfig = [
+            $params = [
                 'label' => $this->buildBreadcrumbLabel(),
                 'url' => $this->buildBreadcrumbUrl()
             ];
             if (!empty($this->breadcrumbsKey)) {
-                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][$this->breadcrumbsKey] = $breadcrumbsParamConfig;
+                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][$this->breadcrumbsKey] = $params;
             } else {
-                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][] = $breadcrumbsParamConfig;
+                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][] = $params;
             }
         }
     }
@@ -185,13 +185,12 @@ class BreadcrumbsFilter extends ActionFilter
     {
         if (!empty($this->label)) {
             return $this->label;
-        } else {
-            if (!$this->owner->hasProperty($this->labelParam)) {
-                throw new UnknownPropertyException('BreadcrumbsFilter\'s owner should provide property \'' .
-                    $this->labelParam . '\'');
-            }
-            return $this->owner->{$this->labelParam};
         }
+        if (!$this->owner->hasProperty($this->labelParam)) {
+            throw new UnknownPropertyException("BreadcrumbsFilter's owner should provide property '"
+                . $this->labelParam . "'");
+        }
+        return $this->owner->{$this->labelParam};
     }
 
     /**
@@ -201,37 +200,33 @@ class BreadcrumbsFilter extends ActionFilter
      */
     protected function buildBreadcrumbUrl()
     {
-        if ($this->isActiveBreadcrumb()) {
-            return null;
-        } else {
-            $route = $this->buildBreadcrumbRoute();
-        }
-        return $route ? Url::to(['/' . $route]) : null;
+        if ($this->isActiveBreadcrumb()) return null;
+        return ($route = $this->buildBreadcrumbRoute()) ? Url::to(['/' . $route]) : null;
     }
 
     protected function isActiveBreadcrumb()
     {
+        if ($this->defaultRoute === false) return false;
         if ($this->owner->id === Yii::$app->controller->module->id) {
-            $requestedRelativeRoute = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
-            return strpos($this->defaultRoute, $requestedRelativeRoute) !== false;
-        } else {
-            return false;
+            $relativeRoute = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
+            return strpos($this->defaultRoute, $relativeRoute) !== false;
         }
+        return false;
     }
 
     protected function buildBreadcrumbRoute()
     {
         if (is_string($this->routeCreator)) {
             if (!$this->owner->hasMethod('getUniqueId')) {
-                throw new UnknownMethodException('BreadcrumbsFilter\'s owner should provide method \'getUniqueId\'');
+                throw new UnknownMethodException("BreadcrumbsFilter's owner should provide method 'getUniqueId'");
             }
             return $this->owner->{$this->routeCreator}();
-        } elseif (is_callable($this->routeCreator)) {
-            return call_user_func($this->routeCreator, $this);
-        } else {
-            throw new UnknownPropertyException('BreadcrumbsFilter\'s should be configured with valid routeCreator ' .
-                '(owner\'s method name or callable)');
         }
+        if (is_callable($this->routeCreator)) {
+            return call_user_func($this->routeCreator, $this);
+        }
+        throw new UnknownPropertyException("BreadcrumbsFilter's should be configured with valid routeCreator"
+            . " (owner's method name or callable)");
     }
 
     /**
