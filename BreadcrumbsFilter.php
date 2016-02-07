@@ -161,19 +161,20 @@ class BreadcrumbsFilter extends ActionFilter
      */
     protected function buildBreadcrumbs()
     {
-        if (Instance::ensure(Yii::$app->controller, WebController::className())) {
-            if (!empty($this->exceptRoutes) && $this->reject()) {
-                return;
-            }
-            $params = [
-                'label' => $this->buildBreadcrumbLabel(),
-                'url' => $this->buildBreadcrumbUrl()
-            ];
-            if (!empty($this->breadcrumbsKey)) {
-                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][$this->breadcrumbsKey] = $params;
-            } else {
-                Yii::$app->controller->getView()->params[$this->breadcrumbsParam][] = $params;
-            }
+        if (!Yii::$app->controller instanceof WebController) {
+            return;
+        }
+        if (!empty($this->exceptRoutes) && $this->reject()) {
+            return;
+        }
+        $params = [
+            'label' => $this->buildBreadcrumbLabel(),
+            'url' => $this->buildBreadcrumbUrl()
+        ];
+        if (!empty($this->breadcrumbsKey)) {
+            Yii::$app->controller->getView()->params[$this->breadcrumbsParam][$this->breadcrumbsKey] = $params;
+        } else {
+            Yii::$app->controller->getView()->params[$this->breadcrumbsParam][] = $params;
         }
     }
 
