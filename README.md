@@ -1,6 +1,6 @@
 # Yii2 Breadcrumbs ActionFilter
 
-[![Latest Version](https://img.shields.io/github/tag/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square&label=release)](https://github.com/itnelo/yii2-breadcrumbs-filter/tags)
+[![Latest Version](https://img.shields.io/packagist/v/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square&label=release)](https://packagist.org/packages/itnelo/yii2-breadcrumbs-filter)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Quality Score](https://img.shields.io/scrutinizer/g/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://scrutinizer-ci.com/g/itnelo/yii2-breadcrumbs-filter)
 [![Total Downloads](https://img.shields.io/packagist/dt/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://packagist.org/packages/itnelo/yii2-breadcrumbs-filter)
