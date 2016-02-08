@@ -152,7 +152,9 @@ class BreadcrumbsFilter extends ActionFilter
      */
     public function beforeAction($action)
     {
-        $this->buildBreadcrumbs();
+        if (Yii::$app->controller instanceof WebController) {
+            $this->buildBreadcrumbs();
+        }
         return parent::beforeAction($action);
     }
 
@@ -161,21 +163,32 @@ class BreadcrumbsFilter extends ActionFilter
      */
     protected function buildBreadcrumbs()
     {
-        if (!Yii::$app->controller instanceof WebController) {
-            return;
-        }
-        if (!empty($this->exceptRoutes) && $this->reject()) {
-            return;
-        }
-        $params = [
-            'label' => $this->buildBreadcrumbLabel(),
-            'url' => $this->buildBreadcrumbUrl()
-        ];
+        if (!empty($this->exceptRoutes) && $this->reject()) return;
+        $params = $this->getBreadcrumbs();
         if (!empty($this->breadcrumbsKey)) {
             Yii::$app->controller->getView()->params[$this->breadcrumbsParam][$this->breadcrumbsKey] = $params;
         } else {
             Yii::$app->controller->getView()->params[$this->breadcrumbsParam][] = $params;
         }
+    }
+
+    /**
+     * You can call this method directly, for example:
+     *
+     * ```
+     * $breadcrumbItem = $module->getBreadcrumbs();
+     * ```
+     *
+     * Note: this method returns breadcrumbs for owner
+     * without checking property $exceptRoutes
+     * @return array
+     */
+    public function getBreadcrumbs()
+    {
+        return [
+            'label' => $this->buildBreadcrumbLabel(),
+            'url' => $this->buildBreadcrumbUrl()
+        ];
     }
 
     /**
