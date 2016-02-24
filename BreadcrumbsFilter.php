@@ -185,10 +185,18 @@ class BreadcrumbsFilter extends ActionFilter
      */
     public function getBreadcrumbs()
     {
-        return [
-            'label' => $this->buildBreadcrumbLabel(),
-            'url' => $this->buildBreadcrumbUrl()
+        $breadcrumb = [
+            'label' => $this->buildBreadcrumbLabel()
         ];
+
+        if ($this->isActiveBreadcrumb()) {
+            // for compapability with custom breadcrumbs widgets.
+            $breadcrumb['options'] = ['class' => 'active'];
+        } else {
+            $breadcrumb['url'] = $this->buildBreadcrumbUrl();
+        }
+
+        return $breadcrumb;
     }
 
     /**
@@ -214,7 +222,6 @@ class BreadcrumbsFilter extends ActionFilter
      */
     protected function buildBreadcrumbUrl()
     {
-        if ($this->isActiveBreadcrumb()) return null;
         return ($route = $this->buildBreadcrumbRoute()) ? Url::to(['/' . $route]) : null;
     }
 
