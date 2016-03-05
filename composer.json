@@ -1,16 +1,16 @@
 {
-    "name": "itnelo/yii2-breadcrumbs-filter",
+    "name": "yii2-tools/yii2-breadcrumbs-filter",
     "description": "Filter for the Yii2 Framework which automatically append module as breadcrumb item",
     "keywords": [
-        "itnelo",
         "yii2",
+        "yii2-tools",
         "extension",
         "behavior",
         "filter"
     ],
     "type": "yii2-extension",
-    "license": "BSD-3-Clause",
-    "homepage": "https://github.com/itnelo/yii2-breadcrumbs-filter",
+    "license": "MIT",
+    "homepage": "https://github.com/yii2-tools/yii2-breadcrumbs-filter",
     "authors": [
         {
             "name": "Pavel Petrov",
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "itnelo\\filters\\": ""
+            "yii\\tools\\filters\\": ""
         }
     }
 }

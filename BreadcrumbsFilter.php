@@ -3,7 +3,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2016 Pavel Petrov <itnelo@gmail.com>
+Copyright (c) 2016 yii2-tools <itnelo@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace itnelo\filters;
+namespace yii\tools\filters;
 
 use Yii;
 use yii\helpers\Url;
@@ -188,14 +188,12 @@ class BreadcrumbsFilter extends ActionFilter
         $breadcrumb = [
             'label' => $this->buildBreadcrumbLabel()
         ];
-
         if ($this->isActiveBreadcrumb()) {
             // for compapability with custom breadcrumbs widgets.
             $breadcrumb['options'] = ['class' => 'active'];
         } else {
             $breadcrumb['url'] = $this->buildBreadcrumbUrl();
         }
-
         return $breadcrumb;
     }
 

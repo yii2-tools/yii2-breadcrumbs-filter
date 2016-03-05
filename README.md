@@ -1,9 +1,9 @@
 # Yii2 Breadcrumbs ActionFilter
 
-[![Latest Version](https://img.shields.io/packagist/v/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square&label=release)](https://packagist.org/packages/itnelo/yii2-breadcrumbs-filter)
+[![Latest Version](https://img.shields.io/packagist/v/yii2-tools/yii2-breadcrumbs-filter.svg?style=flat-square&label=release)](https://packagist.org/packages/yii2-tools/yii2-breadcrumbs-filter)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Quality Score](https://img.shields.io/scrutinizer/g/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://scrutinizer-ci.com/g/itnelo/yii2-breadcrumbs-filter)
-[![Total Downloads](https://img.shields.io/packagist/dt/itnelo/yii2-breadcrumbs-filter.svg?style=flat-square)](https://packagist.org/packages/itnelo/yii2-breadcrumbs-filter)
+[![Quality Score](https://img.shields.io/scrutinizer/g/yii2-tools/yii2-breadcrumbs-filter.svg?style=flat-square)](https://scrutinizer-ci.com/g/yii2-tools/yii2-breadcrumbs-filter)
+[![Total Downloads](https://img.shields.io/packagist/dt/yii2-tools/yii2-breadcrumbs-filter.svg?style=flat-square)](https://packagist.org/packages/yii2-tools/yii2-breadcrumbs-filter)
 
 Yii2 ActionFilter which automatically append module as breadcrumb item if his id exists in requested route.
 
@@ -14,13 +14,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```bash
-$ composer require itnelo/yii2-breadcrumbs-filter:~1.0
+$ composer require yii2-tools/yii2-breadcrumbs-filter:~1.0
 ```
 
 or add
 
 ```
-"itnelo/yii2-breadcrumbs-filter": "~1.0"
+"yii2-tools/yii2-breadcrumbs-filter": "~1.0"
 ```
 
 to the `require` section of your `composer.json` file.
@@ -34,7 +34,7 @@ public function behaviors()
 {
     return array_merge(parent::behaviors(), [
         'breadcrumbs' => [
-            'class' => \itnelo\filters\BreadcrumbsFilter::className(),
+            'class' => \yii\tools\filters\BreadcrumbsFilter::className(),
         ]
     ]);
 }
@@ -57,7 +57,7 @@ It will guarantee what all modules in requested route gets their place in breadc
 
 ```PHP
 use yii\base\Module as BaseModule;
-use itnelo\filters\BreadcrumbsFilter;
+use yii\tools\filters\BreadcrumbsFilter;
 
 class Module extends BaseModule
 {
