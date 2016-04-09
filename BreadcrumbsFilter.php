@@ -147,14 +147,22 @@ class BreadcrumbsFilter extends ActionFilter
     public $routeCreator = 'getUniqueId';
 
     /**
+     * Identifies that breadcrumbs for this owner is already registered (for current request).
+     * @var bool
+     */
+    private $ready = false;
+
+    /**
      * @param \yii\base\Action $action
      * @return bool
      */
     public function beforeAction($action)
     {
-        if (Yii::$app->controller instanceof WebController) {
+        if (Yii::$app->controller instanceof WebController && !$this->ready) {
             $this->buildBreadcrumbs();
+            $this->ready = true;
         }
+
         return parent::beforeAction($action);
     }
 
@@ -194,6 +202,7 @@ class BreadcrumbsFilter extends ActionFilter
         } else {
             $breadcrumb['url'] = $this->buildBreadcrumbUrl();
         }
+
         return $breadcrumb;
     }
 
@@ -210,6 +219,7 @@ class BreadcrumbsFilter extends ActionFilter
             throw new UnknownPropertyException("BreadcrumbsFilter's owner should provide property '"
                 . $this->labelParam . "'");
         }
+
         return $this->owner->{$this->labelParam};
     }
 
@@ -228,8 +238,10 @@ class BreadcrumbsFilter extends ActionFilter
         if ($this->defaultRoute === false) return false;
         if ($this->owner->id === Yii::$app->controller->module->id) {
             $relativeRoute = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
+
             return strpos($this->defaultRoute, $relativeRoute) !== false;
         }
+
         return false;
     }
 
@@ -239,11 +251,13 @@ class BreadcrumbsFilter extends ActionFilter
             if (!$this->owner->hasMethod('getUniqueId')) {
                 throw new UnknownMethodException("BreadcrumbsFilter's owner should provide method 'getUniqueId'");
             }
+
             return $this->owner->{$this->routeCreator}();
         }
         if (is_callable($this->routeCreator)) {
             return call_user_func($this->routeCreator, $this);
         }
+
         throw new UnknownPropertyException("BreadcrumbsFilter's should be configured with valid routeCreator"
             . " (owner's method name or callable)");
     }
@@ -259,6 +273,7 @@ class BreadcrumbsFilter extends ActionFilter
                 return true;
             }
         }
+
         return false;
     }
 }
